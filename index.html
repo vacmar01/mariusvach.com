@@ -91,12 +91,51 @@
       filter: contrast(1.07) brightness(1.05) saturate(1.07) blur(0.40px) url(#crtWarp);
     }
 
+    /* Blinking cursor */
+    .cursor {
+      display: inline-block;
+      width: 0.55ch;
+      margin-left: 0.25ch;
+      color: rgba(134, 239, 172, 0.95);
+      animation: cursorBlink 1.05s steps(1, end) infinite;
+      transform: translateY(1px);
+    }
+    @keyframes cursorBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    /* “Degauss shimmer” (brief power-on wobble) */
+    .degauss {
+      animation: degaussShimmer 320ms ease-out 1;
+    }
+    @keyframes degaussShimmer {
+      0% {
+        filter: hue-rotate(12deg) contrast(1.12) brightness(1.08) blur(0.65px) saturate(1.15);
+        transform: translate3d(0,0,0) skewX(0.5deg) scale(1.002);
+      }
+      35% {
+        filter: hue-rotate(-10deg) contrast(1.20) brightness(1.10) blur(0.9px) saturate(1.25);
+        transform: translate3d(0.5px,-0.2px,0) skewX(-0.8deg) scale(1.006);
+      }
+      70% {
+        filter: hue-rotate(5deg) contrast(1.10) brightness(1.06) blur(0.55px) saturate(1.10);
+        transform: translate3d(-0.25px,0.15px,0) skewX(0.35deg) scale(1.003);
+      }
+      100% {
+        filter: none;
+        transform: none;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .crt::after { animation: none; }
+      .cursor { animation: none; opacity: 1; }
+      .degauss { animation: none; }
     }
   </style>
 </head>
-<body class="bg-black text-green-400 min-h-screen scanline crt crt-filter">
+<body class="bg-black text-green-400 min-h-screen scanline crt crt-filter degauss">
   <!-- SVG filter for subtle CRT warp/noise (acts like a tiny shader) -->
   <svg width="0" height="0" style="position:absolute">
     <filter id="crtWarp">
@@ -113,7 +152,7 @@
   <div class="max-w-3xl mx-auto px-6 py-16">
     <header class="mb-16">
       <p class="text-xs text-green-600 mb-2">// whois</p>
-      <h1 class="text-2xl font-bold text-green-400 mb-4">Dr. Marius Vach</h1>
+      <h1 class="text-2xl font-bold text-green-400 mb-4">Dr. Marius Vach<span class="cursor" aria-hidden="true">█</span></h1>
       <p class="text-sm text-green-300 leading-relaxed max-w-lg">
         Radiologist, AI Researcher &amp; Software Engineer. Building tools at the intersection of medicine, AI and software.
       </p>

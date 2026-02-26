@@ -133,6 +133,26 @@
       .cursor { animation: none; opacity: 1; }
       .degauss { animation: none; }
     }
+
+    /* Link hover indicator - ">" appears on left without moving text */
+    a {
+      position: relative;
+      padding-left: 1.2ch;
+      margin-left: -1.2ch;
+    }
+
+    a::before {
+      content: ">";
+      position: absolute;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      color: inherit;
+    }
+
+    a:hover::before {
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="bg-black text-green-400 min-h-screen scanline crt crt-filter degauss">
